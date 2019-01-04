@@ -22,4 +22,96 @@ docker exec -it loving_leakey bash
 
 install curl
 
-docker attach loving_leakey 
+docker attach loving_leakey
+
+# Exercise 1.4
+
+Dockerfile:
+
+FROM ubuntu:16.04
+
+WORKDIR /mydir
+COPY skripti.sh .
+RUN apt-get update && apt-get install -y curl
+CMD ./skripti.sh
+
+Commands:
+
+docker build -t curler .
+docker run -it curler
+
+# Exercise 1.5
+
+Dockerfile:
+
+FROM ubuntu:16.04
+
+WORKDIR /mydir
+COPY . .
+RUN apt-get update && apt-get install -y curl
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash && apt-get install -y nodejs
+EXPOSE 5000
+RUN npm install
+CMD npm start
+
+Commands:
+
+docker build .
+docker run -p 1234:5000 d5
+
+# Exercise 1.6
+
+Dockerfile:
+
+FROM ubuntu:16.04
+
+WORKDIR /mydir
+COPY . .
+RUN apt-get update && apt-get install -y curl
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash && apt-get install -y nodejs
+RUN npm install
+EXPOSE 8000
+CMD npm start
+
+Commands:
+
+docker build -t backend .
+docker run -p 8000:8000 -v $(pwd)/logs.txt:/mydir/logs.txt backend
+
+# Exercise 1.7
+
+Dockerfiles:
+
+Frontend:
+
+FROM ubuntu:16.04
+
+WORKDIR /mydir
+COPY . .
+RUN apt-get update && apt-get install -y curl
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash && apt-get install -y nodejs
+EXPOSE 5000
+RUN npm install
+ENV API_URL http://127.0.0.1:8000
+CMD npm start
+
+Backend:
+
+FROM ubuntu:16.04
+
+WORKDIR /mydir
+COPY . .
+RUN apt-get update && apt-get install -y curl
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash && apt-get install -y nodejs
+RUN npm install
+EXPOSE 8000
+ENV FRONT_URL http://localhost:5000
+CMD npm start
+
+Commands:
+
+docker build -t backend .
+docker run -p 8000:8000 -v $(pwd)/logs.txt:/mydir/logs.txt backend
+
+docker build -t frontend .
+docker run -p 5000:5000 frontend
