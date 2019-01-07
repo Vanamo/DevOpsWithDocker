@@ -115,3 +115,7 @@ docker run -p 8000:8000 -v $(pwd)/logs.txt:/mydir/logs.txt backend
 
 docker build -t frontend .
 docker run -p 5000:5000 frontend
+
+# Exercise 1.8
+
+https://cloud.docker.com/repository/docker/vanamo/reseptit
