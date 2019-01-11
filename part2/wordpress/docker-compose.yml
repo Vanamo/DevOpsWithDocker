@@ -1,0 +1,26 @@
+version: '3.5' 
+
+services: 
+    mysql: 
+      image: mysql
+      restart: unless-stopped 
+      command: --default-authentication-plugin=mysql_native_password
+      environment: 
+        - MYSQL_ROOT_PASSWORD=example 
+      volumes: 
+        - mysql-data:/var/lib/mysql 
+    wordpress: 
+      image: 'wordpress:4.9.1-php7.1-apache' 
+      environment: 
+        - WORDPRESS_DB_HOST=mysql 
+        - WORDPRESS_DB_PASSWORD=example 
+      ports: 
+        - '9999:80' 
+      depends_on: 
+        - mysql
+
+volumes: 
+    mysql-data:
+    wordpress-data: 
+
+    
