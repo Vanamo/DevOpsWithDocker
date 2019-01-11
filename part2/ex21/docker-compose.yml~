@@ -1,0 +1,25 @@
+version: '3.5'
+
+services:
+   frontti:
+      image: frontend
+      build: .
+      ports:
+       - 5000:5000
+   backi:
+      image: backend
+      build: .
+      ports:
+       - 8000:8000
+      environment:
+       - REDIS=redis
+       - DB=postgres
+       - DB_USERNAME=vseppane
+       - DB_PASSWORD=sala1nen
+   redis:
+      image: redis
+   postgres:
+      image: postgres
+      environment:
+       - POSTGRES_PASSWORD=sala1nen
+       - POSTGRES_USER=vseppane

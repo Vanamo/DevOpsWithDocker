@@ -1,0 +1,47 @@
+# Exercise 2.1
+
+docker-compose.yml:
+
+version: '3.5'
+
+services:
+   frontti:
+      image: frontend
+      build: .
+      ports:
+       - 5000:5000
+   backi:
+      image: backend
+      build: .
+      ports:
+       - 8000:8000
+
+command:
+
+docker-compose up -d
+
+# Exercise 2.2
+
+docker-compose.yml:
+
+version: '3.5'
+
+services:
+   frontti:
+      image: frontend
+      build: .
+      ports:
+       - 5000:5000
+   backi:
+      image: backend
+      build: .
+      ports:
+       - 8000:8000
+      environment:
+       - REDIS=redis
+   redis:
+      image: redis
+
+command:
+
+docker-compose up
